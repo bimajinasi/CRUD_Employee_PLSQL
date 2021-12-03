@@ -4,15 +4,6 @@ EMP_ID NUMBER, EMP_NAME VARCHAR2(20), SALARY NUMBER, MANAGER VARCHAR2(10)
 );
 /
 
-create table EMPz(
-EMP_ID NUMBER, EMP_NAME VARCHAR2(20), SALARY NUMBER, MANAGER VARCHAR2(10)
-);
-/
-
-describe EMPz;
-/
-
-
 --INSERT MULTIPLE ROW
 insert into EMPLOYEE (EMP_ID, EMP_NAME, SALARY, MANAGER)
 WITH tempStation AS (
@@ -26,6 +17,8 @@ SELECT 6, 'Dheo', 2000, 'Yoga' FROM dual
 select * FROM tempStation;
 /
 
+drop table EMPLOYEE;
+/
 
 select * from EMPLOYEE;
 /
@@ -151,8 +144,8 @@ CREATE OR REPLACE PACKAGE BODY pkg_employee AS
         select EMP_NAME, SALARY, MANAGER
         INTO c_name, c_salary, c_manager
         from EMPLOYEE where EMP_ID = select_id;
-            COMMIT;
-        dbms_output.put_line('select by id success');
+        COMMIT;
+        dbms_output.put_line(select_id || ' ' || c_name || ' ' || c_salary || ' ' || c_manager);
     END detailByEmployee;
 
     --PROCEDURE DELETE
@@ -189,6 +182,14 @@ BEGIN
 end;
 
 /
+
+drop package body pkg_employee;
+/
+
+drop package pkg_employee;
+/
+
+
 --EXECUTE PROCEDURE IN PACKAGE
 -- DECLARE
 --     code employee.emp_id%type := 9;
@@ -197,9 +198,8 @@ BEGIN
 --     PKG_EMPLOYEE.listEmployee;
 --     PKG_EMPLOYEE.delEmployee(code);
 --     PKG_EMPLOYEE.updateEmployee(6, 'Yogi');
-    PKG_EMPLOYEE.getByEmployee(2);
---     dbms_output.put_line('==== Employee Update ====');
---     PKG_EMPLOYEE.listEmployee;
+    dbms_output.put_line('==== Employee Update ====');
+    PKG_EMPLOYEE.listEmployee;
 END;
 /
 
